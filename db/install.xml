@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/calculator/db" VERSION="20220224" COMMENT="XMLDB file for Moodle blocks/calculator">
+    <TABLES>
+        <TABLE NAME="mdl_calculator_history" COMMENT="Table for calculator history">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" AUTOINCREMENT="true" COMMENT="Primary key"/>
+                <FIELD NAME="a" TYPE="float" LENGTH="10" NOTNULL="true" COMMENT="Value a"/>
+                <FIELD NAME="b" TYPE="float" LENGTH="10" NOTNULL="true" COMMENT="Value b"/>
+                <FIELD NAME="c" TYPE="float" LENGTH="10" NOTNULL="true" COMMENT="Value c"/>
+                <FIELD NAME="x1" TYPE="float" LENGTH="10" NOTNULL="true" COMMENT="Solution x1"/>
+                <FIELD NAME="x2" TYPE="float" LENGTH="10" NOTNULL="true" COMMENT="Solution x2"/>
+                <FIELD NAME="timestamp" TYPE="timestamp" LENGTH="10" NOTNULL="true" DEFAULT="CURRENT_TIMESTAMP" COMMENT="Timestamp"/>
+                <KEYS>
+                    <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                </KEYS>
+            </FIELDS>
+        </TABLE>
+    </TABLES>
+</XMLDB>

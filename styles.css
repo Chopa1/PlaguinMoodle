@@ -1,0 +1,70 @@
+.block_calculator .card-body {
+    background: rgb(0, 213, 255);
+}
+
+.block_calculator .card-body .card-title {
+    display: flex !important;
+    justify-content: center;
+}
+
+.block_calculator .card-body .card-text form {
+    display: flex !important;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 5px;
+    padding: 0px 20px 0px 20px;
+}
+
+.block_calculator .card-body .card-text {
+    padding: 0px 40px 0px 40px;
+}
+
+.block_calculator .card-body .card-text form .enter {
+    display: flex !important;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.block_calculator .card-body .card-text p {
+    padding-left: 80px;
+}
+
+.block_calculator .card-body .card-text form .buttonInput {
+    color: white;
+    border-radius: 10px;
+    border: 1px solid;
+    background: rgb(102, 153, 27);
+    padding: 5px 0px 5px 0px;
+    margin: 0px 55px 0px 55px;
+}
+
+.block_calculator .card-body .card-text form .enter input::placeholder {
+    color: rgb(184, 183, 183);
+}
+
+.block_calculator .card-body .card-text form .enter input {
+    width: 63%;
+}
+
+.block_calculator .card-body .card-text form .buttonInput:hover {
+    background: rgb(75, 111, 20);
+}
+
+.block_calculator .card-body .buttonHistory {
+    display: flex;
+    border: none;
+    background: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    justify-content: flex-end;
+    padding-right: 55px;
+}
+
+.block_calculator .card-body .buttonHistory:focus,
+.block_calculator .card-body .buttonHistory:hover {
+    outline: none;
+    color: rgb(55, 55, 246);
+}
