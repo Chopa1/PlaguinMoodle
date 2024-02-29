@@ -1,7 +1,8 @@
 <?php
-
 // Строгая типизация
 declare(strict_types=1);
+
+require_once('EquationSolver.php');
 
 // This file is part of Moodle - http://moodle.org/
 //
@@ -33,7 +34,6 @@ class block_calculator extends block_base {
     public function init() {
         $this->title = get_string('pluginname', 'block_calculator');
     }
-
     /**
      * Return the content of this block.
      *
@@ -53,28 +53,32 @@ class block_calculator extends block_base {
         $x1 = null;
         $x2 = null;
 
-        if (!is_numeric($_POST['a']) || !is_numeric($_POST['b']) || !is_numeric($_POST['c'])) {
-            $errors .= $OUTPUT->notification('Пожалуйста, введите числовые значения для a, b и c', 'error');
-        } else {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['a']) && isset($_POST['b']) && isset($_POST['c'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['a']) && isset($_POST['b']) && isset($_POST['c'])) {
+            // Проверка числовых значений
+            if (!is_numeric($_POST['a']) || !is_numeric($_POST['b']) || !is_numeric($_POST['c'])) {
+                $errors .= $OUTPUT->notification('Пожалуйста, введите числовые значения для a, b и c', 'error');
+            } else {
                 // Получение данных из формы
                 $a = (float)$_POST['a'];
                 $b = (float)$_POST['b'];
                 $c = (float)$_POST['c'];
-                
+
+
                 // Проверка ввода
-                if ($a === 0) {
+                if ($a == 0) {
                     $errors .= $OUTPUT->notification('a не может быть равно 0', 'error');
                 }
         
                 // Расчет квадратного уравнения
-                $discriminant = $b * $b - 4 * $a * $c;
-                if ($discriminant < 0) {
-                    $errors .= $OUTPUT->notification('Уравнение не имеет действительных корней', 'error');
+                if (empty($errors)) {
+                    try {
+                        $roots = EquationSolver::solveQuadraticEquation($a, $b, $c, $errors);
+                        $x1 = $roots['x1'];
+                        $x2 = $roots['x2'];
+                    } catch (Exception $e) {
+                        $errors .= $OUTPUT->notification($e->getMessage(), 'error');
+                    }
                 }
-        
-                $x1 = (-$b + sqrt($discriminant)) / (2 * $a);
-                $x2 = (-$b - sqrt($discriminant)) / (2 * $a);
         
                 // Сохранение в базу данных
                 $data = [
@@ -84,23 +88,6 @@ class block_calculator extends block_base {
                     'x1' => $x1,
                     'x2' => $x2
                 ];
-
-                $tableExists = $DB->get_record_sql("SHOW TABLES LIKE 'mdl_calculator_history'");
-
-                if (!$tableExists) {
-                    $sql = "
-                        CREATE TABLE {calculator_history} (
-                            id INT AUTO_INCREMENT PRIMARY KEY,
-                            a FLOAT,
-                            b FLOAT,
-                            c FLOAT,
-                            x1 FLOAT,
-                            x2 FLOAT,
-                            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                        )
-                    ";
-                    $DB->execute($sql);
-                }
 
                 if (empty($errors)) {
                     try {
