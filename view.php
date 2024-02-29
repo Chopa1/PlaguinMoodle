@@ -36,7 +36,10 @@ if ($calculator_history) {
         echo '<td>' . $record->c . '</td>';
         echo '<td>' . $record->x1 . '</td>';
         echo '<td>' . $record->x2 . '</td>';
-        echo '<td>' . $record->timestamp . '</td>';
+        $timestamp = new DateTime($record->timestamp);
+        $timeZone = new DateTimeZone('+10:00');
+        $timestamp->setTimezone($timeZone);
+        echo '<td>' . $timestamp->format('Y-m-d H:i:s') . '</td>';
         echo '</tr>';
     }
     echo '</table>';
